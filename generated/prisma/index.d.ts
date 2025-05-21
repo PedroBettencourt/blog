@@ -1144,21 +1144,18 @@ export namespace Prisma {
   export type UserMinAggregateOutputType = {
     id: number | null
     username: string | null
-    password: string | null
     type: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: number | null
     username: string | null
-    password: string | null
     type: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
     username: number
-    password: number
     type: number
     _all: number
   }
@@ -1175,21 +1172,18 @@ export namespace Prisma {
   export type UserMinAggregateInputType = {
     id?: true
     username?: true
-    password?: true
     type?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
     username?: true
-    password?: true
     type?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
     username?: true
-    password?: true
     type?: true
     _all?: true
   }
@@ -1283,7 +1277,6 @@ export namespace Prisma {
   export type UserGroupByOutputType = {
     id: number
     username: string
-    password: string
     type: string
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
@@ -1309,7 +1302,6 @@ export namespace Prisma {
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     username?: boolean
-    password?: boolean
     type?: boolean
     posts?: boolean | User$postsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
@@ -1319,25 +1311,22 @@ export namespace Prisma {
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     username?: boolean
-    password?: boolean
     type?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     username?: boolean
-    password?: boolean
     type?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
     username?: boolean
-    password?: boolean
     type?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "password" | "type", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "type", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     posts?: boolean | User$postsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
@@ -1355,7 +1344,6 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       username: string
-      password: string
       type: string
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -1784,7 +1772,6 @@ export namespace Prisma {
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'Int'>
     readonly username: FieldRef<"User", 'String'>
-    readonly password: FieldRef<"User", 'String'>
     readonly type: FieldRef<"User", 'String'>
   }
     
@@ -4504,7 +4491,6 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     username: 'username',
-    password: 'password',
     type: 'type'
   };
 
@@ -4627,7 +4613,6 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     id?: IntFilter<"User"> | number
     username?: StringFilter<"User"> | string
-    password?: StringFilter<"User"> | string
     type?: StringFilter<"User"> | string
     posts?: PostListRelationFilter
     comments?: CommentListRelationFilter
@@ -4636,7 +4621,6 @@ export namespace Prisma {
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     username?: SortOrder
-    password?: SortOrder
     type?: SortOrder
     posts?: PostOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
@@ -4648,7 +4632,6 @@ export namespace Prisma {
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    password?: StringFilter<"User"> | string
     type?: StringFilter<"User"> | string
     posts?: PostListRelationFilter
     comments?: CommentListRelationFilter
@@ -4657,7 +4640,6 @@ export namespace Prisma {
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     username?: SortOrder
-    password?: SortOrder
     type?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
@@ -4672,7 +4654,6 @@ export namespace Prisma {
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"User"> | number
     username?: StringWithAggregatesFilter<"User"> | string
-    password?: StringWithAggregatesFilter<"User"> | string
     type?: StringWithAggregatesFilter<"User"> | string
   }
 
@@ -4803,7 +4784,6 @@ export namespace Prisma {
 
   export type UserCreateInput = {
     username: string
-    password: string
     type: string
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutAuthorInput
@@ -4812,7 +4792,6 @@ export namespace Prisma {
   export type UserUncheckedCreateInput = {
     id?: number
     username: string
-    password: string
     type: string
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
@@ -4820,7 +4799,6 @@ export namespace Prisma {
 
   export type UserUpdateInput = {
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutAuthorNestedInput
@@ -4829,7 +4807,6 @@ export namespace Prisma {
   export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
@@ -4838,20 +4815,17 @@ export namespace Prisma {
   export type UserCreateManyInput = {
     id?: number
     username: string
-    password: string
     type: string
   }
 
   export type UserUpdateManyMutationInput = {
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
   }
 
@@ -5018,7 +4992,6 @@ export namespace Prisma {
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     username?: SortOrder
-    password?: SortOrder
     type?: SortOrder
   }
 
@@ -5029,14 +5002,12 @@ export namespace Prisma {
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     username?: SortOrder
-    password?: SortOrder
     type?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     username?: SortOrder
-    password?: SortOrder
     type?: SortOrder
   }
 
@@ -5601,7 +5572,6 @@ export namespace Prisma {
 
   export type UserCreateWithoutPostsInput = {
     username: string
-    password: string
     type: string
     comments?: CommentCreateNestedManyWithoutAuthorInput
   }
@@ -5609,7 +5579,6 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutPostsInput = {
     id?: number
     username: string
-    password: string
     type: string
     comments?: CommentUncheckedCreateNestedManyWithoutAuthorInput
   }
@@ -5655,7 +5624,6 @@ export namespace Prisma {
 
   export type UserUpdateWithoutPostsInput = {
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     comments?: CommentUpdateManyWithoutAuthorNestedInput
   }
@@ -5663,7 +5631,6 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutPostsInput = {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     comments?: CommentUncheckedUpdateManyWithoutAuthorNestedInput
   }
@@ -5686,7 +5653,6 @@ export namespace Prisma {
 
   export type UserCreateWithoutCommentsInput = {
     username: string
-    password: string
     type: string
     posts?: PostCreateNestedManyWithoutAuthorInput
   }
@@ -5694,7 +5660,6 @@ export namespace Prisma {
   export type UserUncheckedCreateWithoutCommentsInput = {
     id?: number
     username: string
-    password: string
     type: string
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
   }
@@ -5739,7 +5704,6 @@ export namespace Prisma {
 
   export type UserUpdateWithoutCommentsInput = {
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     posts?: PostUpdateManyWithoutAuthorNestedInput
   }
@@ -5747,7 +5711,6 @@ export namespace Prisma {
   export type UserUncheckedUpdateWithoutCommentsInput = {
     id?: IntFieldUpdateOperationsInput | number
     username?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
     type?: StringFieldUpdateOperationsInput | string
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
   }
