@@ -6,4 +6,4 @@ async function getAllPosts() {
     return posts;
 }
 
-module.exports = { getAllPosts };
+module.exports = { prisma, getAllPosts };

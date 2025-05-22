@@ -6,10 +6,6 @@ async function postsGet(req, res) {
     res.json(posts);
 };
 
-function postNewGet(req, res) {
-    //hmm
-};
-
 const postNewPost = [
     [
         body("title").trim()
@@ -35,4 +31,4 @@ const postNewPost = [
 ];
 
 
-module.exports = { postsGet, postNewGet, postNewPost };
+module.exports = { postsGet, postNewPost };

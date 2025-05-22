@@ -5,7 +5,7 @@ const usersController = require('../controllers/usersController');
 // usersRouter.get("/:userId")
 // // Maybe edit and delete?
 
-// usersRouter.get("/:userId/posts");
+// usersRouter.get("/:userId/posts", usersController.postsGet);
 // usersRouter.get("/:userId/comments");
 
 // usersRouter.get("/:userId/:postId");
@@ -18,4 +18,4 @@ const usersController = require('../controllers/usersController');
 // usersRouter.put("/:userId/:postId/:commentId");
 // usersRouter.delete("/:userId/:postId/:commentId");
 
-// module.exports = usersRouter;
+module.exports = usersRouter;

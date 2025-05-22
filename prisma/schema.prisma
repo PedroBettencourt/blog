@@ -18,7 +18,7 @@ model User {
   id Int @id @default(autoincrement())
   username String @unique
   password String
-  type String
+  author Boolean @default(false)
   posts Post[]
   comments Comment[]
 }

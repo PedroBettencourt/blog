@@ -3,7 +3,6 @@ const postsRouter = express.Router();
 const postsController = require('../controllers/postsController');
 
 postsRouter.get("/", postsController.postsGet);
-postsRouter.get("/new", postsController.postNewGet);
 postsRouter.post("/new", postsController.postNewPost);
 
 module.exports = postsRouter;
