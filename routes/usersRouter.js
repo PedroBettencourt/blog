@@ -1,21 +1,37 @@
 const express = require('express');
 const usersRouter = express.Router();
 const usersController = require('../controllers/usersController');
+const passport = require('passport')
 
-// usersRouter.get("/:userId")
-// // Maybe edit and delete?
+ usersRouter.get("/:userId", usersController.userGet);
+// Maybe edit and delete?
 
-// usersRouter.get("/:userId/posts", usersController.postsGet);
-// usersRouter.get("/:userId/comments");
+usersRouter.get("/:userId/posts", usersController.userPostsGet);
 
-// usersRouter.get("/:userId/:postId");
-// usersRouter.put("/:userId/:postId");
-// usersRouter.delete("/:userId/:postId");
+usersRouter.get("/:userId/comments", usersController.userCommentsGet);
 
-// usersRouter.get("/:userId/:postId/newcomment");
-// usersRouter.post("/:userId/:postId/newcomment");
 
-// usersRouter.put("/:userId/:postId/:commentId");
-// usersRouter.delete("/:userId/:postId/:commentId");
+usersRouter.get("/:userId/:postId", usersController.postGet);
+
+usersRouter.put("/:userId/:postId", 
+                    passport.authenticate("jwt", { session: false }), 
+                    usersController.postPut);
+
+usersRouter.delete("/:userId/:postId", 
+                    passport.authenticate("jwt", { session: false }), 
+                    usersController.postDelete);
+
+
+usersRouter.post("/:userId/:postId/newcomment", 
+                    passport.authenticate("jwt", { session: false }), 
+                    usersController.newCommentPost);
+
+usersRouter.put("/:userId/:postId/:commentId", 
+                    passport.authenticate("jwt", { session: false }), 
+                    usersController.commentPut);
+                    
+usersRouter.delete("/:userId/:postId/:commentId", 
+                    passport.authenticate("jwt", { session: false }), 
+                    usersController.commentDelete);
 
 module.exports = usersRouter;

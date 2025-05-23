@@ -54,7 +54,7 @@ async function loginPost(req, res) {
         if (!pass) return res.json({ message: "Wrong password" });
 
         const token = sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        await res.json({ token, username: user.username });
+        await res.json({ token: token, username: user.username });
     } catch (err) {
         return res.json({ errors: err });
     }
