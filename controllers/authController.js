@@ -24,7 +24,8 @@ const registerPost = [
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
-        const { username, password, passwordRepeat, type } = req.body;
+        const { username, password, passwordRepeat } = req.body;
+        const author = (req.body.author !== null) ? true : false;
 
         // Check if username already exists
         const user = await prisma.user.findUnique( { where: { username: username } });
@@ -37,7 +38,7 @@ const registerPost = [
 
         try {
             const hashedPassword = await bcrypt.hash(password, 10);
-            await prisma.user.create({ data: { username: username, password: hashedPassword, } });
+            await prisma.user.create({ data: { username: username, password: hashedPassword, author: author } });
             return res.json({ message: `${username} account has been created`});
         } catch (err) {
             return res.json({ errors: err });

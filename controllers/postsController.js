@@ -13,20 +13,26 @@ const postNewPost = [
             .matches(/^[A-Za-z0-9._ ]+$/).withMessage("Title cannot contain those characters"),
         body("text").trim()
             .notEmpty().withMessage("Text cannot be empty")
-            .matches(/^[A-Za-z0-9._ ]+$/).withMessage("Text cannot contain those characters"),
+            .matches(/^[A-Za-z0-9._ !]+$/).withMessage("Text cannot contain those characters"),
         body("published")
             //hmm
     ],
     async(req, res) => {
+        // Check if user is an author
+        if (!req.user.author) return res.json({ message: "Only authors can create posts" });
+
         // Validate fields
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json(errors);
         }
-        const { title, text, published } = req.body;
-        const post = await db.createPost(title, text, published);
-        // req.user.id hmmm -- also missing user authentication
-        res.redirect(`/users/${req.user.id}/${post.id}`);
+
+        // Create post
+        const { title, text } = req.body;
+        const published = (req.body.published !== null) ? true : false;
+
+        const post = await db.createPost(req.user.id, title, text, published);
+        res.json({ post: post });
     }
 ];
 
