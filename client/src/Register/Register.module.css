@@ -1,0 +1,21 @@
+.register {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.label {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 10px;
+    justify-items: start;
+}
+
+.mistake {
+    color: red;
+    font-weight: bold;
+}
+
+li {
+    list-style-type: none;
+}

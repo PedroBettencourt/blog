@@ -29,11 +29,11 @@ const registerPost = [
 
         // Check if username already exists
         const user = await prisma.user.findUnique( { where: { username: username } });
-        if (user) return res.status(400).json({ errors: "Username already exists" });
+        if (user) return res.status(400).json({ errors: [{ msg: "Username already exists" }] });
 
         // Check if passwords match
         if (password !== passwordRepeat ) {
-            return res.status(400).json({ errors: "Passwords don't match" });
+            return res.status(400).json({ errors: [{ msg: "Passwords don't match" }] });
         }
 
         try {
