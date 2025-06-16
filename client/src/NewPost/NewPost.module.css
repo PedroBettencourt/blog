@@ -1,0 +1,21 @@
+.newPostClass {
+
+
+}
+
+.formClass {
+    width: 300px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 20px;
+    justify-items: start;
+}
+
+.formClass > input {
+    width: 250px;
+}
+
+input[type="checkbox"] {
+    margin-left: 10px;
+    margin-right: 220px;
+}

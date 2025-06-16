@@ -2,7 +2,7 @@ const { PrismaClient } = require('../generated/prisma');
 const prisma = new PrismaClient();
 
 async function getAllPosts() {
-    const posts = await prisma.post.findMany();
+    const posts = await prisma.post.findMany({ include: { author: true } });
     return posts;
 };
 
@@ -11,8 +11,9 @@ async function getUser(userId) {
     return user;
 };
 
-async function createPost(postId, title, text, published) {
-    const post = await prisma.post.create({ where: { id: postId }, data: { title: title, text: text, published: published }});
+async function createPost(userId, title, text, published) {
+    const post = await prisma.post.create({ data: { title: title, text: text, published: published, authorId: userId } });
+    return post;
 }
 
 async function getPost(postId) {

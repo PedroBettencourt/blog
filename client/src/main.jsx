@@ -3,8 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 import App from './App.jsx';
-import Posts from './Posts.jsx';
-import NewPost from './NewPost.jsx';
+import Posts from './Posts/Posts.jsx';
+import NewPost from './NewPost/NewPost.jsx';
 import Register from './Register/Register.jsx';
 import Login from './Login/Login.jsx';
 import Profile from './Profile.jsx';
