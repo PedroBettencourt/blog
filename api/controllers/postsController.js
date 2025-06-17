@@ -29,7 +29,7 @@ const postNewPost = [
 
         // Create post
         const { title, text } = req.body;
-        const published = (req.body.published !== null) ? true : false;
+        const published = (req.body.published) ? true : false;
 
         const post = await db.createPost(req.user.id, title, text, published);
         res.json({ post: post });

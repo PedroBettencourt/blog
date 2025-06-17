@@ -6,7 +6,8 @@ async function userGet(req, res) {
     const user = await db.getUser(userId);
     
     if (!user) return res.status(400).json({ message: "User does not exist" });
-    res.json({ username: user.username, author: user.author, posts: user.posts, comments: user.comments });
+
+    res.json({ username: user.username, author: user.author, posts: user.posts.filter(post => post.published), comments: user.comments });
 };
 
 // The next 2 are kinda redundant

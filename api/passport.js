@@ -3,7 +3,7 @@ const passport = require('passport');
 const prisma = require('./prisma/queries').prisma;
 require('dotenv').config();
 
-function initPassport(app) {
+function initPassport() {
     const opts = {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.JWT_SECRET,

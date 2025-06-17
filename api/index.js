@@ -10,7 +10,7 @@ const initPassport = require('./passport');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
-initPassport(app);
+initPassport();
 
 app.use("/", authRouter);
 app.use("/posts", postsRouter);

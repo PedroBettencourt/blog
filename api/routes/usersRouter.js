@@ -3,7 +3,8 @@ const usersRouter = express.Router();
 const usersController = require('../controllers/usersController');
 const passport = require('passport')
 
- usersRouter.get("/:userId", usersController.userGet);
+ usersRouter.get("/:userId", 
+                    usersController.userGet);
 // Maybe edit and delete?
 
 usersRouter.get("/:userId/posts", usersController.userPostsGet);

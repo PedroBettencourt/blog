@@ -7,10 +7,10 @@ import Posts from './Posts/Posts.jsx';
 import NewPost from './NewPost/NewPost.jsx';
 import Register from './Register/Register.jsx';
 import Login from './Login/Login.jsx';
-import Profile from './Profile.jsx';
+import Profile from './Profile/Profile.jsx';
 // import ProfilePosts from './ProfilePosts.jsx';
 // import ProfileComments from './ProfileComments.jsx';
-import Post from './Post.jsx';
+import Post from './Post/Post.jsx';
 
 const router = createBrowserRouter([
   {
