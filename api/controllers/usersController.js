@@ -10,29 +10,15 @@ async function userGet(req, res) {
     res.json({ username: user.username, author: user.author, posts: user.posts.filter(post => post.published), comments: user.comments });
 };
 
-// The next 2 are kinda redundant
-async function userPostsGet(req, res) {
-    const userId = parseInt(req.params.userId);
-    const user = await db.getUser(userId);
-    
-    if (!user) return res.status(400).json({ message: "User does not exist" });
-    res.json({ username: user.username, posts: user.posts });
-};
-
-async function userCommentsGet(req, res) {
-    const userId = parseInt(req.params.userId);
-    const user = await db.getUser(userId);
-    
-    if (!user) return res.status(400).json({ message: "User does not exist" });
-    res.json({ username: user.username, comments: user.comments });
-};
-
 async function postGet(req, res) {
     const postId = parseInt(req.params.postId);
     const post = await db.getPost(postId);
     
     if (!post) return res.status(400).json({ message: "Post does not exist" });
-    res.json({ post: post });
+    // send only relevant information in the comments and author
+    post.comments = post.comments.map(comment => { return { id: comment.id, text: comment.text, createdAt: comment.createdAt, author: comment.author.username } })
+    post.author = { id: post.author.id, username: post.author.username }
+    res.json(post);
 };
 
 const postPut = [
@@ -154,5 +140,5 @@ async function commentDelete(req, res) {
     res.json({ comment: deletedComment });
 };
 
-module.exports = { userGet, userPostsGet, userCommentsGet, postGet, postPut, postDelete, 
+module.exports = { userGet, postGet, postPut, postDelete, 
                     newCommentPost, commentPut, commentDelete }

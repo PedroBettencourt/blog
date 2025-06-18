@@ -7,11 +7,6 @@ const passport = require('passport')
                     usersController.userGet);
 // Maybe edit and delete?
 
-usersRouter.get("/:userId/posts", usersController.userPostsGet);
-
-usersRouter.get("/:userId/comments", usersController.userCommentsGet);
-
-
 usersRouter.get("/:userId/:postId", usersController.postGet);
 
 usersRouter.put("/:userId/:postId", 

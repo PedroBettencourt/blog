@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router";
+import { Link, useOutletContext } from "react-router";
 import { login, mistake, label } from "./Login.module.css";
 
 function Login() {
+
     const [input, setInput] = useState({ username: "", password: "" });
     const [submit, setSubmit] = useState(null);
     const [response, setResponse] = useState(null);
@@ -60,9 +61,7 @@ function Login() {
         <div className={ login }>
             <h1>Login</h1>
             { (isLoading) && <div>Loading...</div> }
-            { // FIX THE ERROR PART
-            console.log(error)}
-            { (error) && <div>Problem</div>}
+            { (error) && <div>Error</div>}
 
 
             { (response) && (response.message) && 
@@ -76,17 +75,20 @@ function Login() {
             }
 
             { (!response || !response.token)  &&
-                <form onSubmit={handleSubmit}>
-                    <div className={ label }>
-                        <label htmlFor="username">Username</label>
-                        <input type="text" id="username" name="username" required value={input.username} onChange={handleChange} />
-                    </div>
-                    <div className={ label }>
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" name="password" required value={input.password} onChange={handleChange} />
-                    </div>
-                    <button type="submit">Login</button>
-                </form>
+                <div>
+                    <form onSubmit={handleSubmit}>
+                        <div className={ label }>
+                            <label htmlFor="username">Username</label>
+                            <input type="text" id="username" name="username" required value={input.username} onChange={handleChange} />
+                        </div>
+                        <div className={ label }>
+                            <label htmlFor="password">Password</label>
+                            <input type="password" id="password" name="password" required value={input.password} onChange={handleChange} />
+                        </div>
+                        <button type="submit">Login</button>
+                    </form>
+                    <Link to="/register">Register</Link>
+                </div>
             }
 
             <Link to="/">Return to Homepage</Link>

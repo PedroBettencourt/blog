@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { postsClass } from "./Posts.module.css";
+import { Link } from "react-router-dom";
 
 function Posts() {
 
@@ -34,7 +35,7 @@ function Posts() {
             <div className={ postsClass }>
                 { (posts) && posts.map(post =>
                     <ul key={post.id}>
-                        <li>{post.title}</li>
+                        <li><Link to={`/users/${post.author.id}/${post.id}`}>{post.title}</Link></li>
                         <li>{post.author.username}</li>
                         <li>{new Date(post.createdAt).toUTCString()}</li>
                         <li>{post.text}</li>

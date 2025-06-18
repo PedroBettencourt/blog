@@ -19,8 +19,8 @@ app.use("/users", usersRouter);
 app.get(
     "/protected", 
     passport.authenticate("jwt", { session: false }),
-    async (req, res) => {
-        res.send(req.user);
+    (req, res) => {
+        res.json({ id: req.user.id, username: req.user.username });
     }
 );
 

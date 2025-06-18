@@ -17,7 +17,7 @@ async function createPost(userId, title, text, published) {
 }
 
 async function getPost(postId) {
-    const post = await prisma.post.findUnique({ where: { id: postId }, include: { comments: true } });
+    const post = await prisma.post.findUnique({ where: { id: postId }, include: { author: true, comments: { include: { author: true } } } });
     return post;
 };
 
