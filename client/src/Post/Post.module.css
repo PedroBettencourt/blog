@@ -1,4 +1,29 @@
-.postEdit {
+.buttons {
     display: flex;
     gap: 20px;
+}
+
+.content, .editForm {
+    margin-top: 50px;
+}
+
+.editForm {
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    all: unset;
+    font-size: 3em;
+    font-weight: bold;
+    border: none;
+}
+
+.textarea {
+    font-family: inherit;
+}
+
+.editForm > button, textarea {
+    margin-bottom: 20px;
+    align-self: flex-start;
 }

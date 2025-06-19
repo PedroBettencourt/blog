@@ -29,8 +29,11 @@ function Posts() {
     return (
         <div>
             <h1>Posts</h1>
-            { (isLoading) && <div>Loading...</div> }
-            { (error) && <div>Error</div> }
+            { (isLoading) && <h2>Loading...</h2> }
+            { (error) && <h2>Error</h2> }
+
+            <Link to="/posts/new">New post</Link>
+            {console.log(posts)}
 
             <div className={ postsClass }>
                 { (posts) && posts.map(post =>

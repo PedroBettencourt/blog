@@ -1,17 +1,22 @@
-.newPostClass {
-
-
+.formClass {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.formClass {
+.formClass > * {
+    align-self: flex-start;
+}
+
+.formComponent {
     width: 300px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    margin-bottom: 20px;
     justify-items: start;
+    gap: 20px;
 }
 
-.formClass > input {
+.formComponent > input {
     width: 250px;
 }
 

@@ -56,7 +56,8 @@ function Layout() {
 function ErrorPage() {
   return (
     <>
-      This is an error
+      <p>This page does not exist</p>
+      <Link to="/">Homepage</Link>
     </>
   )
 }

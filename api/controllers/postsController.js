@@ -2,7 +2,8 @@ const db = require('../prisma/queries');
 const { body, validationResult } = require("express-validator");
 
 async function postsGet(req, res) {
-    const posts = await db.getAllPosts();
+    let posts = await db.getAllPosts();
+    posts = posts.filter(post => post.published);
     res.json(posts);
 };
 
@@ -28,6 +29,7 @@ const postNewPost = [
         }
 
         // Create post
+        console.log(req.body);
         const { title, text } = req.body;
         const published = (req.body.published) ? true : false;
 

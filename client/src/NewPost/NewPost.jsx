@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { newPostClass, formClass } from "./NewPost.module.css";
+import { formComponent, formClass } from "./NewPost.module.css";
 import { Link } from "react-router-dom";
 
 function NewPost() {
@@ -14,6 +14,11 @@ function NewPost() {
         const name = e.target.name;
         const value = e.target.value;
         setInput({...input, [name]: value})
+    }
+    
+    function handleCheckbox() {
+        if (input.checkbox) setInput({...input, published: false});
+        else setInput({...input, published: true})
     }
 
     function handleSubmit(e) { 
@@ -37,7 +42,7 @@ function NewPost() {
                 );
                 if (res.status === 401) setResponse(401);
                 const json = await res.json();
-            setResponse(json);
+                setResponse(json);
 
             } catch (error) {
                 setError(error);
@@ -56,41 +61,41 @@ function NewPost() {
         
     
     return (
-        <div className={ newPostClass }>
+        <>
             <h1>New Post</h1>
             
-            { (isLoading) && <div>Loading...</div> }
-            { (error) && <div>Error</div> }
+            { (isLoading) && <h2>Loading...</h2> }
+            { (error) && <h2>Error</h2> }
 
             { (response) && (response === 401) && <Link to="/login">Login!</Link>}
 
             { (response) && (response !== 401) && 
                 <div>
-                    <p>Post created!</p>
+                    <h2>Post created!</h2>
                     <Link to="/">Back to the Homepage!</Link>
                 </div>
             }
 
             { (!response || response === 401) && 
-                <form onSubmit={handleSubmit}>
-                    <div className={formClass}>
+                <form onSubmit={handleSubmit} className={ formClass }>
+                    <div className={ formComponent }>
                         <label htmlFor="title">Title:</label>
                         <input type="text" id="title" name="title" required value={input.title} onChange={handleChange} />
                     </div>
-                    <div className={formClass}>
+                    <div className={ formComponent }>
                         <label htmlFor="text">Text:</label>
                         <textarea id="text" name="text" required value={input.text} onChange={handleChange} cols="35" rows="5"></textarea>
                     </div>
                     <div>
                         <label htmlFor="published">Published:</label>
-                        <input type="checkbox" id="published" name="published" />
+                        <input type="checkbox" id="published" name="published" onClick={handleCheckbox} />
                     </div>
                     <button type="submit">Submit</button>
                 </form>
             }
 
             
-        </div>
+        </>
     );
 };
 

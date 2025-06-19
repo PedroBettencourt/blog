@@ -11,8 +11,9 @@ async function userGet(req, res) {
 };
 
 async function postGet(req, res) {
+    const userId = parseInt(req.params.userId);
     const postId = parseInt(req.params.postId);
-    const post = await db.getPost(postId);
+    const post = await db.getPost(userId, postId);
     
     if (!post) return res.status(400).json({ message: "Post does not exist" });
     // send only relevant information in the comments and author
@@ -29,18 +30,17 @@ const postPut = [
         body("text").trim()
             .notEmpty().withMessage("Text cannot be empty")
             .matches(/^[A-Za-z0-9._ !]+$/).withMessage("Text cannot contain those characters"),
-        body("published")
-            //hmm
     ],
     async(req, res) => {
         // Check if post exists
+        const userId = parseInt(req.params.userId);
         const postId = parseInt(req.params.postId);
-        const post = await db.getPost(postId);
+        const post = await db.getPost(userId, postId);
         if (!post) return res.status(400).json({ message: "Post does not exist" });
 
         // Check if user can edit post
-        const userId = parseInt(req.user.id);
-        if (post.authorId !== userId) return res.status(400).json({ message: "Only the author can edit their posts" });
+        const user = parseInt(req.user.id);
+        if (post.authorId !== user) return res.status(400).json({ message: "Only the author can edit their posts" });
 
         // Validate fields
         const errors = validationResult(req);
@@ -50,22 +50,22 @@ const postPut = [
         
         // Update post
         const { title, text } = req.body;
-        const published = (req.body.published !== null) ? true : false;
 
-        const newPost = await db.updatePost(postId, title, text, published);
-        res.json({ post: newPost });
+        const newPost = await db.updatePost(postId, title, text);
+        res.json({ title: newPost.title, text: newPost.text });
     },
 ];
 
 async function postDelete(req, res) {
     // Check if post exists
+    const userId = parseInt(req.params.userId)
     const postId = parseInt(req.params.postId);
-    const post = await db.getPost(postId);
+    const post = await db.getPost(userId, postId);
     if (!post) return res.status(400).json({ message: "Post does not exist" });
 
     // Check if user can edit post
-    const userId = parseInt(req.user.id);
-    if (post.authorId !== userId) return res.status(400).json({ message: "Only the author can delete their posts" });
+    const user = parseInt(req.user.id);
+    if (post.authorId !== user) return res.status(400).json({ message: "Only the author can delete their posts" });
 
     // Delete post
     const deletedPost = await db.deletePost(postId);
