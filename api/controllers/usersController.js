@@ -94,7 +94,7 @@ const newCommentPost = [
 
         // Create comment
         const newComment = await db.createComment(text, userId, postId);
-        res.json({ comment: newComment });
+        res.json(newComment);
     },
 ];
 

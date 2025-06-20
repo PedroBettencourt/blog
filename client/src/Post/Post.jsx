@@ -17,12 +17,12 @@ function Edit({ post, setEdit, setPost }) {
         const name = e.target.name;
         const value = e.target.value;
         setInput({...input, [name]: value})
-    }
+    };
 
     function handleSubmit(e) { 
         e.preventDefault();
         setSubmit(true);
-    }
+    };
 
     useEffect(() => {
         async function fetchData() {
@@ -54,7 +54,6 @@ function Edit({ post, setEdit, setPost }) {
     }, [submit]);
 
     return(
-        <>
             <form onSubmit={handleSubmit} className={editForm}>
                 <input className={title} type="text" id="title" name="title" required value={input.title} onChange={handleChange} />
                 <ul>
@@ -62,14 +61,76 @@ function Edit({ post, setEdit, setPost }) {
                     <li>{new Date(post.createdAt).toUTCString()}</li>
                 </ul>
                 <textarea className={textarea} id="text" name="text" required value={input.text} onChange={handleChange} cols="35" rows="5"></textarea>
-                { isLoading && <div>Loading...</div> }
-                { error && <div>Error</div> }
+                { isLoading && <h2>Loading...</h2> }
+                { error && <h2>Error</h2> }
                 <div className={buttons}>
                     <button type="submit" onClick={handleSubmit}>Submit</button>
                     <button onClick={() => setEdit(false)}>Cancel</button>
                 </div>
             </form>
-        </>
+    )
+};
+
+function Comment({ setComment, post, setPost }) {
+
+    const [commentValue, setCommentValue] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [submit, setSubmit] = useState(false);
+
+    const userId = useParams().userId;
+    const postId = useParams().postId;
+
+    function handleChange(e) {
+        setCommentValue(e.target.value);
+    };
+
+    function handleSubmit(e) { 
+        e.preventDefault();
+        setSubmit(true);
+    };
+
+    useEffect(() => {
+        async function fetchData() {
+            setIsLoading(true);
+            try {
+                const data = JSON.stringify({ text: commentValue });
+                const token = localStorage.token;
+                const res = await fetch(`http://localhost:3000/users/${userId}/${postId}/newcomment`, {
+                    method: "POST",
+                    body: data,
+                    headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token }
+                });
+                setComment(false);
+                const json = await res.json();
+                console.log(post)
+                console.log(json)
+                setPost({ ...post, comments: [...post.comments, json] });
+
+            } catch (err) {
+                setError(err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if (submit) {
+            setError(null);
+            fetchData();
+            setSubmit(false);
+        };
+    }, [submit])
+    
+    return (
+        <form onSubmit={handleSubmit}>
+            <textarea type="text" name="text" required value={commentValue} onChange={handleChange} cols="35" rows="5"></textarea>
+            { isLoading && <h2>Loading...</h2> }
+            { error && <h2>Error</h2> }
+            <div className={buttons}>
+                <button type="submit" onClick={handleSubmit}>Submit</button>
+                <button onClick={() => setComment(false)}>Cancel</button>
+            </div>
+        </form>
     )
 }
 
@@ -85,6 +146,8 @@ function Post() {
 
     const [edit, setEdit] = useState(false);
     const [remove, setRemove] = useState(false);
+
+    const [comment, setComment] = useState(false);
 
     useEffect(() => {
         async function fetchData() {
@@ -137,6 +200,10 @@ function Post() {
 
     }, [remove]);
 
+    function handleComment() {
+        setComment(true);
+    }
+
     return (
         <>
             { isLoading && <h2>Loading...</h2> }
@@ -169,18 +236,29 @@ function Post() {
                         </div>
                     }
 
-                    { (post.comments.length > 0) &&
-                        <div>
-                            <h2>Comments</h2>
-                            {post.comments.map(comment => (
-                                <ul key={comment.id}>
-                                    <li>{comment.author}</li>
-                                    <li>{new Date(comment.createdAt).toUTCString()}</li>
-                                    <li>{comment.text}</li>
-                                </ul>
-                            ))}
-                        </div>
-                    }
+                    <div>
+                        { user &&
+                            <>
+                                <h2>Comments</h2>
+                                { comment && <Comment setComment={setComment} post={post} setPost={setPost} /> }
+                                { !comment && <button onClick={handleComment}>New Comment</button> }
+                                
+                            </>
+                        }
+
+                        { (post.comments.length > 0) &&
+                            <>
+                                { !user && <h2>Comments</h2> }
+                                {post.comments.map(comment => (
+                                    <ul key={comment.id}>
+                                        <li>{comment.author}</li>
+                                        <li>{new Date(comment.createdAt).toUTCString()}</li>
+                                        <li>{comment.text}</li>
+                                    </ul>
+                                ))}
+                            </>
+                        }
+                    </div>
                 </div>
             }
         </>
