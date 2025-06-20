@@ -32,7 +32,7 @@ async function deletePost(postId) {
 };
 
 async function createComment(text, userId, postId) {
-    const newComment = await prisma.comment.create({ data: { text: text, authorId: userId, postId: postId } });
+    const newComment = await prisma.comment.create({ data: { text: text, authorId: userId, postId: postId }, include: { author: true } });
     return newComment;
 };
 

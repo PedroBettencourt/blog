@@ -147,7 +147,6 @@ function Comment({ setComment, post, setPost, method, comment }) {
 
 function Post() {
 
-    
     const [post, setPost] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -189,6 +188,7 @@ function Post() {
         setRemove(true);
     };
 
+    // Delete post
     useEffect(() => {
         async function fetchData() {
             setIsLoading(true);
@@ -222,9 +222,38 @@ function Post() {
         setEditComment(id);
     }
 
-    function handleCommentDelete() {
-        setRemoveComment(true);
+    function handleCommentDelete(id) {
+        setRemoveComment(id);
     }
+
+    // Delete comments
+    useEffect(() => {
+        async function fetchData() {
+            setIsLoading(true);
+            try {
+                const token = localStorage.token;
+                await fetch(`http://localhost:3000/users/${userId}/${postId}/${removeComment}`, {
+                    method: "DELETE",
+                    headers: { "Authorization": "Bearer " + token }
+                });
+                const newPost = {...post};
+                newPost.comments = newPost.comments.filter(c => c.id !== removeComment);
+                setPost(newPost);
+                setRemoveComment(true);
+            } catch (err) {
+                setError(err);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        if(typeof(removeComment) === "number") {
+            setError(null);
+            fetchData();
+        }
+
+    }, [removeComment]);
+
 
     return (
         <>
@@ -268,6 +297,8 @@ function Post() {
                             </>
                         }
 
+                        { removeComment && <h3>Comment removed!</h3> }
+                        
                         { (post.comments.length > 0) &&
                             <>
                                 { !user && <h2>Comments</h2> }
@@ -275,17 +306,17 @@ function Post() {
                                     <ul key={comment.id}>
                                         <li>{comment.author}</li>
                                         <li>{new Date(comment.createdAt).toUTCString()}</li>
-
-                                        { editComment === comment.id ? 
-                                            <Comment setComment={setEditComment} post={post} setPost={setPost} method={"PUT"} comment={comment}/> :
-                                            <li>{comment.text}</li>
+                                            
+                                        {editComment === comment.id 
+                                                ? <Comment setComment={setEditComment} post={post} setPost={setPost} method={"PUT"} comment={comment}/> 
+                                                : <li>{comment.text}</li>
                                         }
 
                                         { !editComment && user && user.username === comment.author &&
                                             <div className={ buttons }>
                                                 <button onClick={() => handleCommentEdit(comment.id)}>Edit</button>
-                                                <button onClick={handleCommentDelete}>Delete</button>
-                                            </div>
+                                                <button onClick={() => handleCommentDelete(comment.id)}>Delete</button>
+                                            </div>                                        
                                         }
                                     </ul>
                                 ))}
