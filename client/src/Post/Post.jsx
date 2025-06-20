@@ -71,9 +71,11 @@ function Edit({ post, setEdit, setPost }) {
     )
 };
 
-function Comment({ setComment, post, setPost }) {
+function Comment({ setComment, post, setPost, method, comment }) {
 
-    const [commentValue, setCommentValue] = useState("");
+    let temp = "";
+    if (comment) temp = comment.text
+    const [commentValue, setCommentValue] = useState(temp);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [submit, setSubmit] = useState(false);
@@ -96,16 +98,25 @@ function Comment({ setComment, post, setPost }) {
             try {
                 const data = JSON.stringify({ text: commentValue });
                 const token = localStorage.token;
-                const res = await fetch(`http://localhost:3000/users/${userId}/${postId}/newcomment`, {
-                    method: "POST",
+                let url;
+                (method === "POST") ? url = "newcomment" : url = comment.id.toString();
+                const res = await fetch(`http://localhost:3000/users/${userId}/${postId}/${url}`, {
+                    method: method,
                     body: data,
                     headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token }
                 });
                 setComment(false);
                 const json = await res.json();
-                console.log(post)
-                console.log(json)
-                setPost({ ...post, comments: [...post.comments, json] });
+
+                if (comment) {
+                    const newPost = {...post}
+                    newPost.comments = newPost.comments.map(c => {
+                        if (c === comment) c.text = json.text;
+                        return c;
+                    });
+                    console.log(newPost)
+                    setPost( newPost );
+                } else setPost({ ...post, comments: [...post.comments, json] });
 
             } catch (err) {
                 setError(err);
@@ -136,19 +147,22 @@ function Comment({ setComment, post, setPost }) {
 
 function Post() {
 
+    
     const [post, setPost] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const user = useOutletContext();
-
+    
     const userId = useParams().userId;
     const postId = useParams().postId;
-
+    
     const [edit, setEdit] = useState(false);
     const [remove, setRemove] = useState(false);
-
+    
     const [comment, setComment] = useState(false);
-
+    const [editComment, setEditComment] = useState(false);
+    const [removeComment, setRemoveComment] = useState(false);
+        
     useEffect(() => {
         async function fetchData() {
             setIsLoading(true);
@@ -204,6 +218,14 @@ function Post() {
         setComment(true);
     }
 
+    function handleCommentEdit(id) {
+        setEditComment(id);
+    }
+
+    function handleCommentDelete() {
+        setRemoveComment(true);
+    }
+
     return (
         <>
             { isLoading && <h2>Loading...</h2> }
@@ -240,7 +262,7 @@ function Post() {
                         { user &&
                             <>
                                 <h2>Comments</h2>
-                                { comment && <Comment setComment={setComment} post={post} setPost={setPost} /> }
+                                { comment && <Comment setComment={setComment} post={post} setPost={setPost} method={"POST"} comment={null}/> }
                                 { !comment && <button onClick={handleComment}>New Comment</button> }
                                 
                             </>
@@ -253,7 +275,18 @@ function Post() {
                                     <ul key={comment.id}>
                                         <li>{comment.author}</li>
                                         <li>{new Date(comment.createdAt).toUTCString()}</li>
-                                        <li>{comment.text}</li>
+
+                                        { editComment === comment.id ? 
+                                            <Comment setComment={setEditComment} post={post} setPost={setPost} method={"PUT"} comment={comment}/> :
+                                            <li>{comment.text}</li>
+                                        }
+
+                                        { !editComment && user && user.username === comment.author &&
+                                            <div className={ buttons }>
+                                                <button onClick={() => handleCommentEdit(comment.id)}>Edit</button>
+                                                <button onClick={handleCommentDelete}>Delete</button>
+                                            </div>
+                                        }
                                     </ul>
                                 ))}
                             </>

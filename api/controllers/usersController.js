@@ -121,7 +121,7 @@ const commentPut = [
 
         // Create comment
         const updatedComment = await db.updateComment(commentId, text);
-        res.json({ comment: updatedComment });
+        res.json(updatedComment);
     },
 ];
 
