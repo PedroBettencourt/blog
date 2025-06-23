@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Link, useOutletContext } from "react-router";
-import { login, mistake, label } from "./Login.module.css";
+import { Link } from "react-router";
+import { login, mistake, label, formClass } from "./Login.module.css";
 
 function Login() {
 
@@ -75,8 +75,8 @@ function Login() {
             }
 
             { (!response || !response.token)  &&
-                <div>
-                    <form onSubmit={handleSubmit}>
+                <div className={login}>
+                    <form onSubmit={handleSubmit} className={formClass}>
                         <div className={ label }>
                             <label htmlFor="username">Username</label>
                             <input type="text" id="username" name="username" required value={input.username} onChange={handleChange} />

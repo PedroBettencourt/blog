@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import { register, label, mistake } from "./Register.module.css";
+import { register, label, mistake, formClass } from "./Register.module.css";
 
 function Register() {
     const [input, setInput] = useState({username: "", password: "", passwordRepeat: "", author: false});
@@ -67,7 +67,7 @@ function Register() {
                 </ul>
             }
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className={formClass}>
                 <div className={ label }>
                     <label htmlFor="username">Username</label>
                     <input type="text" id="username" name="username" required value={input.username} onChange={handleChange} />
